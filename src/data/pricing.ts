@@ -168,8 +168,8 @@ export const hostingPlans: PricingPlan[] = [
 ];
 
 export const domainExtensions = [
-  { tld: '.com.br', price: 'R$ 40,00/ano', popular: true, note: 'A extensão preferida no Brasil' },
-  { tld: '.com', price: 'R$ 69,00/ano', popular: true, note: 'Presença e alcance global' },
-  { tld: '.net', price: 'R$ 79,00/ano', popular: false, note: 'Ideal para redes e tecnologia' },
-  { tld: '.org.br', price: 'R$ 40,00/ano', popular: false, note: 'Para ONGs e instituições' },
+  { tld: '.com.br', price: 'R$ 60,00/ano', popular: true, note: 'A extensão preferida no Brasil' },
+  { tld: '.com', price: 'R$ 103,50/ano', popular: true, note: 'Presença e alcance global' },
+  { tld: '.net', price: 'R$ 118,50/ano', popular: false, note: 'Ideal para redes e tecnologia' },
+  { tld: '.org.br', price: 'R$ 60,00/ano', popular: false, note: 'Para ONGs e instituições' },
 ];

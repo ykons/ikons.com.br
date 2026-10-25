@@ -124,7 +124,9 @@ import { domainExtensions } from '../data/pricing';
         submitBtn.removeAttribute('disabled');
         submitBtn.innerHTML = originalBtnText;
 
-        const price = domain.endsWith('.com.br') ? 'R$ 40,00/ano' : (domain.endsWith('.com') ? 'R$ 69,00/ano' : 'R$ 79,00/ano');
+        const price = (domain.endsWith('.com.br') || domain.endsWith('.org.br')) 
+          ? 'R$ 60,00/ano' 
+          : (domain.endsWith('.com') ? 'R$ 103,50/ano' : 'R$ 118,50/ano');
 
         resultCard.className = "p-5 rounded-2xl border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/20 flex flex-col sm:flex-row items-center justify-between gap-4";
         resultCard.innerHTML = `
