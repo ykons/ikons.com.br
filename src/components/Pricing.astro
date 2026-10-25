@@ -1,0 +1,199 @@
+---
+import { hostingPlans, billingCycles } from '../data/pricing';
+---
+
+<section id="hospedagem" class="py-20 sm:py-28 relative transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Heading -->
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-cyan-400 border border-blue-200 dark:border-blue-500/20 mb-3">
+        Planos & Preços
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        Escolha o plano ideal para a sua necessidade
+      </h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        Preços transparentes, sem custos ocultos. Escolha o ciclo de faturamento e aproveite descontos progressivos nos planos mais longos.
+      </p>
+
+      <!-- Billing Cycle Toggle -->
+      <div class="mt-8 inline-flex items-center p-1.5 bg-slate-200/80 dark:bg-slate-900/90 border border-slate-300/80 dark:border-slate-700/80 rounded-2xl shadow-lg backdrop-blur-md">
+        <div class="flex flex-wrap sm:flex-nowrap gap-1">
+          {billingCycles.map((cycle, index) => (
+            <button
+              type="button"
+              class={`cycle-toggle-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                index === 0
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300/50 dark:hover:bg-slate-800/60'
+              }`}
+              data-cycle={cycle.id}
+            >
+              <span>{cycle.label}</span>
+              {cycle.badge && (
+                <span class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 dark:bg-cyan-500/20 dark:text-cyan-300 font-bold">
+                  {cycle.badge}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+      {hostingPlans.map(plan => (
+        <div 
+          class={`relative rounded-3xl transition-all duration-300 flex flex-col justify-between ${
+            plan.popular
+              ? 'bg-gradient-to-b from-white to-blue-50/40 dark:from-slate-900 dark:to-slate-950 border-2 border-blue-600 dark:border-cyan-500 shadow-xl shadow-blue-500/10 dark:shadow-2xl dark:shadow-cyan-500/15 lg:-translate-y-2'
+              : 'bg-white dark:bg-slate-900/70 border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-xl'
+          }`}
+        >
+          {plan.popular && (
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+              <span class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-cyan-500 dark:to-blue-600 text-white shadow-lg">
+                Mais Escolhido
+              </span>
+            </div>
+          )}
+
+          <div class="p-6 sm:p-8">
+            <!-- Header -->
+            <div class="mb-5">
+              <h3 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{plan.name}</h3>
+              <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 min-h-[40px]">{plan.tagline}</p>
+            </div>
+
+            <!-- Price Display Area (Updated via JS) -->
+            <div class="py-5 border-y border-slate-100 dark:border-slate-800/80 mb-6">
+              <div class="flex items-baseline gap-1">
+                <span class="text-xs text-slate-500 dark:text-slate-400">R$</span>
+                <span 
+                  class="plan-price-val text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight"
+                  data-plan-id={plan.id}
+                  data-monthly-price={plan.prices.monthly.total}
+                  data-quarterly-price={plan.prices.quarterly.total}
+                  data-semiannually-price={plan.prices.semiannually.total}
+                  data-annually-price={plan.prices.annually.total}
+                  data-monthly-per-month={plan.prices.monthly.perMonth}
+                  data-quarterly-per-month={plan.prices.quarterly.perMonth}
+                  data-semiannually-per-month={plan.prices.semiannually.perMonth}
+                  data-annually-per-month={plan.prices.annually.perMonth}
+                >
+                  {plan.prices.monthly.total.toFixed(2).replace('.', ',')}
+                </span>
+                <span class="plan-cycle-label text-xs sm:text-sm text-slate-500 dark:text-slate-400">/ mês</span>
+              </div>
+              <div class="plan-subprice-info text-xs text-blue-600 dark:text-cyan-400 font-medium mt-1.5 h-4">
+                Cobrança mensal regular
+              </div>
+            </div>
+
+            <!-- Key Specs Summary -->
+            <div class="grid grid-cols-2 gap-3 mb-6 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 text-xs text-slate-600 dark:text-slate-300">
+              <div>
+                <span class="text-slate-500 dark:text-slate-400 block text-[11px]">Armazenamento</span>
+                <strong class="text-slate-900 dark:text-white font-semibold">{plan.storage}</strong>
+              </div>
+              <div>
+                <span class="text-slate-500 dark:text-slate-400 block text-[11px]">E-mails</span>
+                <strong class="text-slate-900 dark:text-white font-semibold">{plan.emails}</strong>
+              </div>
+            </div>
+
+            <!-- Features List -->
+            <ul class="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+              {plan.features.map(feat => (
+                <li class="flex items-start gap-2.5">
+                  <svg class="w-4 h-4 text-blue-600 dark:text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Card Action Button -->
+          <div class="p-6 sm:p-8 pt-0">
+            <button
+              type="button"
+              onclick={`window.openOrderModal('', '${plan.id}', '${plan.name}')`}
+              class={`w-full py-3.5 px-4 rounded-2xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+                plan.popular
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white shadow-lg shadow-blue-500/25'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white border border-slate-200 dark:border-slate-700/60'
+              }`}
+            >
+              <span>Contratar {plan.name}</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Comparison Link -->
+    <div class="mt-12 text-center">
+      <a 
+        href="#comparativo" 
+        class="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-cyan-400 font-medium transition-colors"
+      >
+        <span>Ver comparação detalhada de recursos</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  let activeCycle: 'monthly' | 'quarterly' | 'semiannually' | 'annually' = 'monthly';
+  const cycleButtons = document.querySelectorAll('.cycle-toggle-btn');
+  const priceElements = document.querySelectorAll('.plan-price-val');
+  const cycleLabels = document.querySelectorAll('.plan-cycle-label');
+  const subpriceInfos = document.querySelectorAll('.plan-subprice-info');
+
+  const cycleTextMap = {
+    monthly: { label: '/ mês', sub: 'Cobrança mensal regular' },
+    quarterly: { label: '/ trimestre', sub: 'Pagamento a cada 3 meses' },
+    semiannually: { label: '/ semestre', sub: 'Pagamento a cada 6 meses' },
+    annually: { label: '/ ano', sub: 'Melhor economia no pagamento anual' }
+  };
+
+  cycleButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cycle = btn.getAttribute('data-cycle') as typeof activeCycle;
+      if (!cycle) return;
+
+      activeCycle = cycle;
+
+      cycleButtons.forEach(b => {
+        b.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+        b.classList.add('text-slate-600', 'dark:text-slate-400');
+      });
+      btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+      btn.classList.remove('text-slate-600', 'dark:text-slate-400');
+
+      priceElements.forEach(el => {
+        const total = parseFloat(el.getAttribute(`data-${activeCycle}-price`) || '0');
+        el.textContent = total.toFixed(2).replace('.', ',');
+      });
+
+      cycleLabels.forEach(el => {
+        el.textContent = cycleTextMap[activeCycle].label;
+      });
+
+      subpriceInfos.forEach(el => {
+        el.textContent = cycleTextMap[activeCycle].sub;
+      });
+    });
+  });
+</script>

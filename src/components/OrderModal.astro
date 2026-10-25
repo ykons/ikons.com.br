@@ -1,0 +1,221 @@
+---
+import { siteConfig } from '../data/config';
+---
+
+<div id="order-modal-backdrop" class="fixed inset-0 z-50 bg-slate-950/60 dark:bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 transition-colors duration-300">
+  <div class="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl text-left overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+      <div>
+        <span class="text-xs font-semibold text-blue-600 dark:text-cyan-400 uppercase tracking-wider">Contratação de Hospedagem</span>
+        <h3 id="modal-plan-title" class="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Plano Intermediário</h3>
+      </div>
+      <button 
+        type="button" 
+        id="close-modal-btn"
+        class="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors cursor-pointer"
+        aria-label="Fechar modal"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Form -->
+    <form id="order-form" class="mt-6 space-y-4">
+      <div>
+        <label for="order-domain" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Domínio da sua empresa / projeto *
+        </label>
+        <input 
+          type="text" 
+          id="order-domain" 
+          placeholder="exemplo.com.br"
+          required
+          class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label for="order-plan-select" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            Plano Escolhido
+          </label>
+          <select 
+            id="order-plan-select"
+            class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+          >
+            <option value="basico">Plano Básico</option>
+            <option value="intermediario" selected>Plano Intermediário</option>
+            <option value="avancado">Plano Avançado</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="order-cycle-select" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            Ciclo de Pagamento
+          </label>
+          <select 
+            id="order-cycle-select"
+            class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+          >
+            <option value="monthly">Mensal</option>
+            <option value="quarterly">Trimestral (Desconto)</option>
+            <option value="semiannually">Semestral (Desconto)</option>
+            <option value="annually">Anual (Melhor Economia)</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label for="order-name" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Seu Nome Completo ou Razão Social *
+        </label>
+        <input 
+          type="text" 
+          id="order-name" 
+          placeholder="Nome do responsável"
+          required
+          class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label for="order-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            E-mail de Contato *
+          </label>
+          <input 
+            type="email" 
+            id="order-email" 
+            placeholder="contato@empresa.com"
+            required
+            class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+          />
+        </div>
+        <div>
+          <label for="order-phone" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            Telefone / Contato *
+          </label>
+          <input 
+            type="tel" 
+            id="order-phone" 
+            placeholder="(71) 99999-9999"
+            required
+            class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+          />
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+        🔒 A fatura com opção de <strong class="text-slate-900 dark:text-white">PIX Instantâneo e Boleto</strong> será gerada e enviada para o seu e-mail. Após a confirmação, suas credenciais do painel cPanel e acesso à central de suporte serão liberadas.
+      </div>
+
+      <div class="pt-2">
+        <button 
+          type="submit" 
+          id="order-submit-btn"
+          class="w-full py-3.5 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold rounded-2xl text-sm shadow-lg shadow-blue-500/20 transition-all cursor-pointer flex items-center justify-center gap-2"
+        >
+          <span>Concluir e Solicitar Ativação</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+    </form>
+
+    <!-- Success Screen (Injected on submit) -->
+    <div id="order-success-box" class="hidden text-center py-6">
+      <div class="w-14 h-14 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Solicitação Recebida com Sucesso!</h4>
+      <p class="text-sm text-slate-600 dark:text-slate-300 max-w-sm mx-auto leading-relaxed mb-6">
+        Seu pedido foi registrado na equipe da <strong class="text-slate-900 dark:text-white">IKONS Tecnologia</strong>. Em breve você receberá a confirmação e os detalhes de pagamento por e-mail.
+      </p>
+      <button 
+        type="button" 
+        id="order-success-close-btn"
+        class="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white font-semibold rounded-xl text-sm transition-all"
+      >
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const backdrop = document.getElementById('order-modal-backdrop');
+  const closeBtn = document.getElementById('close-modal-btn');
+  const form = document.getElementById('order-form') as HTMLFormElement | null;
+  const successBox = document.getElementById('order-success-box');
+  const successCloseBtn = document.getElementById('order-success-close-btn');
+
+  const planTitle = document.getElementById('modal-plan-title');
+  const domainInput = document.getElementById('order-domain') as HTMLInputElement | null;
+  const planSelect = document.getElementById('order-plan-select') as HTMLSelectElement | null;
+  const cycleSelect = document.getElementById('order-cycle-select') as HTMLSelectElement | null;
+
+  (window as any).openOrderModal = function(domain = '', planId = 'intermediario', planName = 'Intermediário') {
+    if (backdrop && form && successBox) {
+      form.classList.remove('hidden');
+      successBox.classList.add('hidden');
+
+      if (planTitle) {
+        planTitle.textContent = `Plano ${planName}`;
+      }
+
+      if (planSelect) {
+        planSelect.value = planId;
+      }
+
+      if (domainInput && domain) {
+        domainInput.value = domain;
+      }
+
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
+    }
+  };
+
+  function closeModal() {
+    if (backdrop) {
+      backdrop.classList.add('hidden');
+      backdrop.classList.remove('flex');
+    }
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (successCloseBtn) successCloseBtn.addEventListener('click', closeModal);
+
+  if (backdrop) {
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeModal();
+    });
+  }
+
+  if (form && successBox) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('order-submit-btn');
+      if (submitBtn) {
+        submitBtn.setAttribute('disabled', 'true');
+        submitBtn.innerHTML = `Processando solicitação...`;
+      }
+
+      setTimeout(() => {
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+        if (submitBtn) {
+          submitBtn.removeAttribute('disabled');
+          submitBtn.innerHTML = `Concluir e Solicitar Ativação`;
+        }
+      }, 600);
+    });
+  }
+</script>

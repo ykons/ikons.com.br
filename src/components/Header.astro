@@ -1,0 +1,179 @@
+---
+import { siteConfig } from '../data/config';
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-[#080c14]/85 backdrop-blur-md transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1">
+        <img 
+          src="/images/logo-ikons.png" 
+          alt="IKONS Tecnologia" 
+          class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+        />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#hospedagem" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Hospedagem</a>
+        <a href="#dominios" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Registro de Domínio</a>
+        <a href="#diferenciais" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Diferenciais</a>
+        <a href="#central-cliente" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Central do Cliente</a>
+        <a href="#faq" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Dúvidas</a>
+      </nav>
+
+      <!-- Action Buttons & Theme Toggle -->
+      <div class="hidden lg:flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button
+          id="theme-toggle-btn"
+          type="button"
+          class="p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors cursor-pointer border border-slate-200 dark:border-slate-800"
+          aria-label="Alternar tema claro e escuro"
+          title="Alternar tema"
+        >
+          <!-- Sun Icon (shown in dark mode) -->
+          <svg id="theme-sun-icon" class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon Icon (shown in light mode) -->
+          <svg id="theme-moon-icon" class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <a 
+          href={siteConfig.links.webmail}
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="text-xs font-semibold px-3.5 py-2 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 rounded-xl transition-all"
+        >
+          Webmail
+        </a>
+
+        <a 
+          href={siteConfig.links.support} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 text-xs font-semibold px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white rounded-xl shadow-md shadow-blue-500/20 transition-all hover:shadow-cyan-500/25"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          Central de Suporte
+        </a>
+      </div>
+
+      <!-- Mobile Right Controls (Toggle Theme & Hamburger) -->
+      <div class="flex items-center gap-2 md:hidden">
+        <button
+          id="mobile-theme-toggle-btn"
+          type="button"
+          class="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-lg border border-slate-200 dark:border-slate-800"
+          aria-label="Alternar tema"
+        >
+          <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <button 
+          id="mobile-menu-btn"
+          type="button" 
+          class="p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg focus:outline-none"
+          aria-label="Abrir menu"
+        >
+          <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200/80 dark:border-slate-800/80 py-4 px-2 space-y-3">
+      <a href="#hospedagem" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">Hospedagem</a>
+      <a href="#dominios" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">Registro de Domínio</a>
+      <a href="#diferenciais" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">Diferenciais</a>
+      <a href="#central-cliente" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">Central do Cliente</a>
+      <a href="#faq" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">Dúvidas</a>
+      <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
+        <a 
+          href={siteConfig.links.webmail}
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="text-center text-sm font-semibold py-2.5 text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/80 rounded-xl"
+        >
+          Acessar Webmail
+        </a>
+        <a 
+          href={siteConfig.links.support} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center justify-center gap-2 text-center text-sm font-semibold py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-md"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          Central de Suporte
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile Menu
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  if (btn && menu && menuIcon && closeIcon) {
+    btn.addEventListener('click', () => {
+      const isExpanded = !menu.classList.contains('hidden');
+      if (isExpanded) {
+        menu.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      } else {
+        menu.classList.remove('hidden');
+        menuIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+      }
+    });
+
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+  }
+
+  // Theme Toggle Logic
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  }
+
+  const desktopThemeBtn = document.getElementById('theme-toggle-btn');
+  const mobileThemeBtn = document.getElementById('mobile-theme-toggle-btn');
+
+  if (desktopThemeBtn) desktopThemeBtn.addEventListener('click', toggleTheme);
+  if (mobileThemeBtn) mobileThemeBtn.addEventListener('click', toggleTheme);
+</script>

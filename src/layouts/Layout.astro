@@ -1,0 +1,77 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '../data/config';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${siteConfig.name} - ${siteConfig.tagline}`,
+  description = siteConfig.description,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/favicon-ikons.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={siteConfig.url} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteConfig.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteConfig.url}/images/logo-ikons.png`} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={siteConfig.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={`${siteConfig.url}/images/logo-ikons.png`} />
+
+    <!-- Google Fonts Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Script de Inicialização do Tema (Tema Claro por padrão) -->
+    <script is:inline>
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (!savedTheme) {
+          localStorage.setItem('theme', 'light');
+        }
+      }
+    </script>
+
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800 dark:bg-[#080c14] dark:text-slate-100 antialiased selection:bg-blue-600 selection:text-white transition-colors duration-300">
+    <!-- Background Meshes (Light & Dark) -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      <!-- Light mode subtle gradients -->
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-400/15 dark:bg-blue-600/10 rounded-full blur-[128px]"></div>
+      <div class="absolute top-1/3 -right-40 w-[30rem] h-[30rem] bg-cyan-400/15 dark:bg-cyan-500/10 rounded-full blur-[150px]"></div>
+      <div class="absolute -bottom-40 left-1/3 w-[32rem] h-[32rem] bg-indigo-300/20 dark:bg-indigo-600/10 rounded-full blur-[140px]"></div>
+    </div>
+
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,118 @@
+---
+import { siteConfig } from '../data/config';
+---
+
+<footer class="border-t border-slate-200 dark:border-slate-800/80 bg-slate-100 dark:bg-[#060910] text-slate-600 dark:text-slate-400 py-16 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <!-- Col 1: Brand -->
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img 
+            src="/images/logo-ikons.png" 
+            alt="IKONS Tecnologia" 
+            class="h-9 w-auto object-contain"
+          />
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+          Soluções confiáveis em hospedagem de sites e registro de domínios. Alta disponibilidade, painel cPanel e suporte especializado.
+        </p>
+        <div class="text-xs text-slate-600 dark:text-slate-500">
+          Domínio principal: <strong class="text-slate-900 dark:text-slate-300">www.ikons.com.br</strong>
+        </div>
+      </div>
+
+      <!-- Col 2: Serviços -->
+      <div>
+        <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Serviços</h4>
+        <ul class="space-y-2.5 text-xs">
+          <li>
+            <a href="#hospedagem" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Hospedagem de Sites</a>
+          </li>
+          <li>
+            <a href="#dominios" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Registro de Domínio .br</a>
+          </li>
+          <li>
+            <a href="#dominios" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Registro de Domínio Internacional</a>
+          </li>
+          <li>
+            <a href="#comparativo" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Comparativo de Planos</a>
+          </li>
+          <li>
+            <a href="#diferenciais" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Infraestrutura SSD NVMe</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Central do Cliente & Suporte -->
+      <div>
+        <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Central & Suporte</h4>
+        <ul class="space-y-2.5 text-xs">
+          <li>
+            <a 
+              href={siteConfig.links.support} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-blue-600 dark:text-cyan-400 hover:text-blue-700 dark:hover:text-cyan-300 font-semibold flex items-center gap-1.5"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              Central de Suporte (suporte.ikons.com.br)
+            </a>
+          </li>
+          <li>
+            <a href={siteConfig.links.webmail} target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">
+              Acesso ao Webmail
+            </a>
+          </li>
+          <li>
+            <a href={siteConfig.links.cpanel} target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">
+              Painel de Controle cPanel
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${siteConfig.links.contactEmail}`} class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">
+              Contato Financeiro / 2ª Via
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Contato & Confiança -->
+      <div>
+        <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Atendimento</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+          Para solicitações comerciais, migrações e dúvidas técnicas:
+        </p>
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <svg class="w-4 h-4 text-blue-600 dark:text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <a href={`mailto:${siteConfig.links.contactEmail}`} class="hover:text-blue-600 dark:hover:text-white transition-colors">
+              {siteConfig.links.contactEmail}
+            </a>
+          </div>
+          <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <svg class="w-4 h-4 text-blue-600 dark:text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <span>Conexão Segura SSL 256-bit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>
+        {siteConfig.company.copyright}
+      </div>
+      <div class="flex items-center gap-6">
+        <span>Salvador - Bahia | Brasil</span>
+        <a href="#hospedagem" class="hover:text-slate-700 dark:hover:text-slate-400">Topo ↑</a>
+      </div>
+    </div>
+  </div>
+</footer>

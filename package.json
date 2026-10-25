@@ -1,0 +1,19 @@
+{
+  "name": "ikons-site",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@lucide/astro": "^1.61.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^5.4.0",
+    "lucide-astro": "^0.556.0",
+    "tailwindcss": "^4.0.0"
+  }
+}
