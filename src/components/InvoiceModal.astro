@@ -1,0 +1,237 @@
+---
+import { siteConfig } from '../data/config';
+---
+
+<div id="invoice-modal-backdrop" class="fixed inset-0 z-50 bg-slate-950/70 dark:bg-slate-950/85 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300 overflow-y-auto">
+  <div class="relative w-full max-w-md my-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl text-left overflow-hidden">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+      <div>
+        <span class="text-xs font-semibold text-blue-600 dark:text-cyan-400 uppercase tracking-wider">Autoatendimento Financeiro</span>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-0.5">2ª Via de Fatura</h3>
+      </div>
+      <button 
+        type="button" 
+        id="close-invoice-modal-btn"
+        class="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors cursor-pointer"
+        aria-label="Fechar modal de 2ª via"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Error Alert Box -->
+    <div id="invoice-error-box" class="hidden mt-4 p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300">
+      <div class="flex items-start gap-2.5">
+        <svg class="w-4 h-4 shrink-0 text-rose-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div id="invoice-error-message" class="flex-1 font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Request Form -->
+    <form id="invoice-form" class="mt-6 space-y-4">
+      <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+        Informe o CPF ou CNPJ do titular do serviço para receber por e-mail o link seguro com suas faturas em aberto e opções de PIX ou boleto.
+      </p>
+
+      <div>
+        <label for="invoice-document" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          CPF ou CNPJ cadastrado *
+        </label>
+        <input 
+          type="text" 
+          id="invoice-document" 
+          placeholder="000.000.000-00 ou 00.000.000/0000-00"
+          required
+          autocomplete="off"
+          class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm font-mono"
+        />
+        <div id="invoice-document-error" class="hidden text-[11px] text-rose-500 font-medium mt-1">
+          Por favor, digite um CPF ou CNPJ válido.
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+        🔒 <strong>Sem necessidade de senha</strong>: Para sua segurança e conformidade com a LGPD, o link de acesso direto à fatura é enviado exclusivamente aos e-mails cadastrados do titular.
+      </div>
+
+      <div class="pt-2">
+        <button 
+          type="submit" 
+          id="invoice-submit-btn"
+          class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold rounded-2xl text-sm shadow-lg shadow-blue-500/20 transition-all cursor-pointer flex items-center justify-center gap-2"
+        >
+          <span>Receber Link de Acesso</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+    </form>
+
+    <!-- Success Feedback Box -->
+    <div id="invoice-success-box" class="hidden py-4 text-center">
+      <div class="w-12 h-12 rounded-full bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+
+      <h4 class="text-lg font-bold text-slate-900 dark:text-white">Solicitação Concluída!</h4>
+      <p id="invoice-success-msg" class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed max-w-sm mx-auto">
+        Se houver faturas pendentes vinculadas a este documento, o link seguro de visualização foi enviado para os seus e-mails de cadastro.
+      </p>
+
+      <div class="mt-4 p-3 rounded-xl bg-slate-100/70 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400">
+        Não localizou a mensagem? Verifique também a pasta de <em>Spam</em> ou entre em contato com nosso atendimento em <strong>{siteConfig.links.contactEmail}</strong>.
+      </div>
+
+      <div class="mt-5">
+        <button 
+          type="button" 
+          id="invoice-success-close-btn"
+          class="w-full px-6 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-semibold rounded-xl text-xs transition-all cursor-pointer"
+        >
+          Entendido
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import { requestInvoiceAccess } from '../utils/api';
+  import { formatDocument, validateDocument, cleanDigits } from '../utils/cpfCnpj';
+
+  const backdrop = document.getElementById('invoice-modal-backdrop');
+  const closeBtn = document.getElementById('close-invoice-modal-btn');
+  const form = document.getElementById('invoice-form') as HTMLFormElement | null;
+  const successBox = document.getElementById('invoice-success-box');
+  const successCloseBtn = document.getElementById('invoice-success-close-btn');
+  const successMsg = document.getElementById('invoice-success-msg');
+
+  const docInput = document.getElementById('invoice-document') as HTMLInputElement | null;
+  const docError = document.getElementById('invoice-document-error');
+  const submitBtn = document.getElementById('invoice-submit-btn');
+
+  const errorBox = document.getElementById('invoice-error-box');
+  const errorMessage = document.getElementById('invoice-error-message');
+
+  if (docInput) {
+    docInput.addEventListener('input', () => {
+      docInput.value = formatDocument(docInput.value);
+      if (docError && cleanDigits(docInput.value).length >= 11) {
+        if (!validateDocument(docInput.value)) {
+          docError.classList.remove('hidden');
+          docInput.classList.add('border-rose-500');
+        } else {
+          docError.classList.add('hidden');
+          docInput.classList.remove('border-rose-500');
+        }
+      }
+    });
+
+    docInput.addEventListener('blur', () => {
+      if (docError && docInput.value.trim()) {
+        if (!validateDocument(docInput.value)) {
+          docError.classList.remove('hidden');
+          docInput.classList.add('border-rose-500');
+        } else {
+          docError.classList.add('hidden');
+          docInput.classList.remove('border-rose-500');
+        }
+      }
+    });
+  }
+
+  (window as any).openInvoiceModal = function() {
+    if (backdrop && form && successBox) {
+      form.classList.remove('hidden');
+      successBox.classList.add('hidden');
+      if (errorBox) errorBox.classList.add('hidden');
+      if (docError) docError.classList.add('hidden');
+      if (docInput) {
+        docInput.classList.remove('border-rose-500');
+        docInput.value = '';
+      }
+
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
+      backdrop.scrollTop = 0;
+      setTimeout(() => docInput?.focus(), 100);
+    }
+  };
+
+  function closeInvoiceModal() {
+    if (backdrop) {
+      backdrop.classList.add('hidden');
+      backdrop.classList.remove('flex');
+    }
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeInvoiceModal);
+  if (successCloseBtn) successCloseBtn.addEventListener('click', closeInvoiceModal);
+
+  if (backdrop) {
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeInvoiceModal();
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && backdrop && !backdrop.classList.contains('hidden')) {
+      closeInvoiceModal();
+    }
+  });
+
+  if (form && successBox && submitBtn) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (errorBox) errorBox.classList.add('hidden');
+
+      const rawDoc = docInput?.value || '';
+      if (!validateDocument(rawDoc)) {
+        if (docError) docError.classList.remove('hidden');
+        if (docInput) {
+          docInput.classList.add('border-rose-500');
+          docInput.focus();
+        }
+        return;
+      }
+
+      submitBtn.setAttribute('disabled', 'true');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Verificando...</span>
+      `;
+
+      try {
+        const result = await requestInvoiceAccess(rawDoc);
+        if (successMsg) {
+          successMsg.textContent = result.message;
+        }
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+      } catch (err: any) {
+        if (errorBox && errorMessage) {
+          errorMessage.textContent = err.message || 'Ocorreu um erro ao consultar suas faturas. Tente novamente mais tarde.';
+          errorBox.classList.remove('hidden');
+        }
+      } finally {
+        submitBtn.removeAttribute('disabled');
+        submitBtn.innerHTML = originalBtnText;
+      }
+    });
+  }
+</script>

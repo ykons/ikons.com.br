@@ -121,12 +121,13 @@ import { hostingPlans, billingCycles } from '../data/pricing';
           <div class="p-6 sm:p-8 pt-0">
             <button
               type="button"
-              onclick={`window.openOrderModal('', '${plan.id}', '${plan.name}')`}
-              class={`w-full py-3.5 px-4 rounded-2xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+              class={`plan-order-btn w-full py-3.5 px-4 rounded-2xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
                 plan.popular
                   ? 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white shadow-lg shadow-blue-500/25'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white border border-slate-200 dark:border-slate-700/60'
               }`}
+              data-plan-id={plan.id}
+              data-plan-name={plan.name}
             >
               <span>Contratar {plan.name}</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,6 +161,7 @@ import { hostingPlans, billingCycles } from '../data/pricing';
   const priceElements = document.querySelectorAll('.plan-price-val');
   const cycleLabels = document.querySelectorAll('.plan-cycle-label');
   const subpriceInfos = document.querySelectorAll('.plan-subprice-info');
+  const orderButtons = document.querySelectorAll('.plan-order-btn');
 
   const cycleTextMap = {
     monthly: { label: '/ mês', sub: 'Cobrança mensal regular' },
@@ -194,6 +196,16 @@ import { hostingPlans, billingCycles } from '../data/pricing';
       subpriceInfos.forEach(el => {
         el.textContent = cycleTextMap[activeCycle].sub;
       });
+    });
+  });
+
+  orderButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const planId = btn.getAttribute('data-plan-id') || 'intermediario';
+      const planName = btn.getAttribute('data-plan-name') || 'Intermediário';
+      if (typeof (window as any).openOrderModal === 'function') {
+        (window as any).openOrderModal('', planId, planName, activeCycle);
+      }
     });
   });
 </script>

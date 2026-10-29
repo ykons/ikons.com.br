@@ -2,12 +2,13 @@
 import { siteConfig } from '../data/config';
 ---
 
-<div id="order-modal-backdrop" class="fixed inset-0 z-50 bg-slate-950/60 dark:bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 transition-colors duration-300">
-  <div class="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl text-left overflow-hidden">
+<div id="order-modal-backdrop" class="fixed inset-0 z-50 bg-slate-950/70 dark:bg-slate-950/85 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300 overflow-y-auto">
+  <div class="relative w-full max-w-lg my-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl text-left overflow-hidden">
+    
     <!-- Header -->
     <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
       <div>
-        <span class="text-xs font-semibold text-blue-600 dark:text-cyan-400 uppercase tracking-wider">Contratação de Hospedagem</span>
+        <span class="text-xs font-semibold text-blue-600 dark:text-cyan-400 uppercase tracking-wider">Contratação Expressa</span>
         <h3 id="modal-plan-title" class="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Plano Intermediário</h3>
       </div>
       <button 
@@ -22,28 +23,39 @@ import { siteConfig } from '../data/config';
       </button>
     </div>
 
-    <!-- Form -->
+    <!-- Error Alert Box -->
+    <div id="order-error-box" class="hidden mt-4 p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300">
+      <div class="flex items-start gap-2.5">
+        <svg class="w-4 h-4 shrink-0 text-rose-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div id="order-error-message" class="flex-1 font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Checkout Form -->
     <form id="order-form" class="mt-6 space-y-4">
       <div>
         <label for="order-domain" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-          Domínio da sua empresa / projeto *
+          Domínio do seu site / projeto <span class="text-slate-400 font-normal">(opcional)</span>
         </label>
         <input 
           type="text" 
           id="order-domain" 
           placeholder="exemplo.com.br"
-          required
-          class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+          autocomplete="off"
+          class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm transition-all"
         />
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label for="order-plan-select" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-            Plano Escolhido
+            Plano Escolhido *
           </label>
           <select 
             id="order-plan-select"
+            required
             class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
           >
             <option value="basico">Plano Básico</option>
@@ -54,10 +66,11 @@ import { siteConfig } from '../data/config';
 
         <div>
           <label for="order-cycle-select" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-            Ciclo de Pagamento
+            Ciclo de Pagamento *
           </label>
           <select 
             id="order-cycle-select"
+            required
             class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
           >
             <option value="monthly">Mensal</option>
@@ -70,21 +83,38 @@ import { siteConfig } from '../data/config';
 
       <div>
         <label for="order-name" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-          Seu Nome Completo ou Razão Social *
+          Nome Completo ou Razão Social *
         </label>
         <input 
           type="text" 
           id="order-name" 
-          placeholder="Nome do responsável"
+          placeholder="Nome do titular ou empresa"
           required
           class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
         />
       </div>
 
+      <div>
+        <label for="order-document" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          CPF ou CNPJ * <span class="text-slate-400 font-normal">(para emissão da fatura)</span>
+        </label>
+        <input 
+          type="text" 
+          id="order-document" 
+          placeholder="000.000.000-00 ou 00.000.000/0000-00"
+          required
+          autocomplete="off"
+          class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm font-mono"
+        />
+        <div id="order-document-error" class="hidden text-[11px] text-rose-500 font-medium mt-1">
+          Por favor, informe um CPF ou CNPJ válido com dígitos verificadores corretos.
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label for="order-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-            E-mail de Contato *
+            E-mail para Cobrança e Acessos *
           </label>
           <input 
             type="email" 
@@ -96,20 +126,20 @@ import { siteConfig } from '../data/config';
         </div>
         <div>
           <label for="order-phone" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-            Telefone / Contato *
+            Telefone / WhatsApp *
           </label>
           <input 
             type="tel" 
             id="order-phone" 
             placeholder="(71) 99999-9999"
             required
-            class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm"
+            class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-cyan-500 text-sm font-mono"
           />
         </div>
       </div>
 
-      <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-        🔒 A fatura com opção de <strong class="text-slate-900 dark:text-white">PIX Instantâneo e Boleto</strong> será gerada e enviada para o seu e-mail. Após a confirmação, suas credenciais do painel cPanel e acesso à central de suporte serão liberadas.
+      <div class="p-3.5 rounded-2xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/60 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+        ⚡ A fatura com opção de <strong class="text-blue-700 dark:text-cyan-400">PIX Instantâneo e Boleto</strong> é gerada no ato. Assim que confirmado o pagamento, o serviço é provisionado automaticamente no cPanel e suas credenciais enviadas por e-mail.
       </div>
 
       <div class="pt-2">
@@ -118,7 +148,7 @@ import { siteConfig } from '../data/config';
           id="order-submit-btn"
           class="w-full py-3.5 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold rounded-2xl text-sm shadow-lg shadow-blue-500/20 transition-all cursor-pointer flex items-center justify-center gap-2"
         >
-          <span>Concluir e Solicitar Ativação</span>
+          <span>Concluir Pedido e Gerar Fatura</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
@@ -126,29 +156,99 @@ import { siteConfig } from '../data/config';
       </div>
     </form>
 
-    <!-- Success Screen (Injected on submit) -->
-    <div id="order-success-box" class="hidden text-center py-6">
-      <div class="w-14 h-14 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-4">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Success & Payment Screen (Rendered dynamically) -->
+    <div id="order-success-box" class="hidden py-4 text-center">
+      <div class="w-12 h-12 rounded-full bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Solicitação Recebida com Sucesso!</h4>
-      <p class="text-sm text-slate-600 dark:text-slate-300 max-w-sm mx-auto leading-relaxed mb-6">
-        Seu pedido foi registrado na equipe da <strong class="text-slate-900 dark:text-white">IKONS Tecnologia</strong>. Em breve você receberá a confirmação e os detalhes de pagamento por e-mail.
+      
+      <h4 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Pedido Gerado com Sucesso!</h4>
+      <p id="success-service-summary" class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-5">
+        Seu pedido foi registrado em nossa plataforma. Realize o pagamento para ativação imediata.
       </p>
+
+      <!-- PIX Area -->
+      <div id="pix-payment-container" class="hidden mb-5 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-left">
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200 dark:border-slate-800">
+          <span class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            Pagamento Instantâneo via PIX
+          </span>
+          <span id="pix-invoice-amount" class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400"></span>
+        </div>
+
+        <!-- QR Code Center -->
+        <div id="pix-qrcode-wrapper" class="flex justify-center my-3 hidden">
+          <img id="pix-qrcode-img" src="" alt="QR Code PIX" class="w-44 h-44 rounded-xl border border-slate-200 dark:border-slate-700 p-1 bg-white shadow-sm" />
+        </div>
+
+        <!-- Copia e Cola -->
+        <div class="space-y-1.5 mt-3">
+          <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400">Código PIX Copia e Cola:</label>
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="pix-code-input" 
+              readonly 
+              class="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono text-slate-800 dark:text-slate-200 select-all"
+            />
+            <button 
+              type="button" 
+              id="pix-copy-btn"
+              class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shadow-sm"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              <span>Copiar PIX</span>
+            </button>
+          </div>
+          <span id="pix-copy-feedback" class="block text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold h-4 transition-all"></span>
+        </div>
+      </div>
+
+      <!-- Boleto Area (se disponível) -->
+      <div id="boleto-payment-container" class="hidden mb-5">
+        <a 
+          id="boleto-link-btn" 
+          href="#" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-semibold rounded-xl text-xs transition-colors border border-slate-200 dark:border-slate-700"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>Visualizar / Imprimir Boleto Bancário</span>
+        </a>
+      </div>
+
+      <!-- Informação de Ativação -->
+      <div class="p-3.5 rounded-2xl bg-slate-100/80 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 leading-relaxed text-left mb-5">
+        📧 Uma cópia completa da fatura e os dados de confirmação foram encaminhados para o seu e-mail. Após a compensação automática, os acessos ao painel cPanel e Webmail serão liberados de forma imediata.
+      </div>
+
       <button 
         type="button" 
         id="order-success-close-btn"
-        class="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white font-semibold rounded-xl text-sm transition-all"
+        class="w-full sm:w-auto px-8 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-semibold rounded-xl text-sm transition-all cursor-pointer"
       >
         Fechar
       </button>
     </div>
+
   </div>
 </div>
 
 <script>
+  import { createPublicOrder } from '../utils/api';
+  import { formatDocument, formatPhone, validateDocument, cleanDigits } from '../utils/cpfCnpj';
+  import { getProductIdByPlan } from '../data/config';
+
   const backdrop = document.getElementById('order-modal-backdrop');
   const closeBtn = document.getElementById('close-modal-btn');
   const form = document.getElementById('order-form') as HTMLFormElement | null;
@@ -159,11 +259,75 @@ import { siteConfig } from '../data/config';
   const domainInput = document.getElementById('order-domain') as HTMLInputElement | null;
   const planSelect = document.getElementById('order-plan-select') as HTMLSelectElement | null;
   const cycleSelect = document.getElementById('order-cycle-select') as HTMLSelectElement | null;
+  const nameInput = document.getElementById('order-name') as HTMLInputElement | null;
+  const docInput = document.getElementById('order-document') as HTMLInputElement | null;
+  const docError = document.getElementById('order-document-error');
+  const emailInput = document.getElementById('order-email') as HTMLInputElement | null;
+  const phoneInput = document.getElementById('order-phone') as HTMLInputElement | null;
+  const submitBtn = document.getElementById('order-submit-btn');
 
-  (window as any).openOrderModal = function(domain = '', planId = 'intermediario', planName = 'Intermediário') {
+  const errorBox = document.getElementById('order-error-box');
+  const errorMessage = document.getElementById('order-error-message');
+
+  // Sucesso e Pagamento
+  const serviceSummary = document.getElementById('success-service-summary');
+  const pixContainer = document.getElementById('pix-payment-container');
+  const pixQrWrapper = document.getElementById('pix-qrcode-wrapper');
+  const pixQrImg = document.getElementById('pix-qrcode-img') as HTMLImageElement | null;
+  const pixCodeInput = document.getElementById('pix-code-input') as HTMLInputElement | null;
+  const pixAmount = document.getElementById('pix-invoice-amount');
+  const pixCopyBtn = document.getElementById('pix-copy-btn');
+  const pixCopyFeedback = document.getElementById('pix-copy-feedback');
+  const boletoContainer = document.getElementById('boleto-payment-container');
+  const boletoLink = document.getElementById('boleto-link-btn') as HTMLAnchorElement | null;
+
+  // Formatação de documento (CPF/CNPJ) e Telefone em tempo real
+  if (docInput) {
+    docInput.addEventListener('input', () => {
+      docInput.value = formatDocument(docInput.value);
+      if (docError && cleanDigits(docInput.value).length >= 11) {
+        if (!validateDocument(docInput.value)) {
+          docError.classList.remove('hidden');
+          docInput.classList.add('border-rose-500');
+        } else {
+          docError.classList.add('hidden');
+          docInput.classList.remove('border-rose-500');
+        }
+      }
+    });
+
+    docInput.addEventListener('blur', () => {
+      if (docError && docInput.value.trim()) {
+        if (!validateDocument(docInput.value)) {
+          docError.classList.remove('hidden');
+          docInput.classList.add('border-rose-500');
+        } else {
+          docError.classList.add('hidden');
+          docInput.classList.remove('border-rose-500');
+        }
+      }
+    });
+  }
+
+  if (phoneInput) {
+    phoneInput.addEventListener('input', () => {
+      phoneInput.value = formatPhone(phoneInput.value);
+    });
+  }
+
+  // Função global para abrir o modal de pedidos
+  (window as any).openOrderModal = function(
+    domain = '', 
+    planId = 'intermediario', 
+    planName = 'Intermediário',
+    cycle: 'monthly' | 'quarterly' | 'semiannually' | 'annually' = 'monthly'
+  ) {
     if (backdrop && form && successBox) {
       form.classList.remove('hidden');
       successBox.classList.add('hidden');
+      if (errorBox) errorBox.classList.add('hidden');
+      if (docError) docError.classList.add('hidden');
+      if (docInput) docInput.classList.remove('border-rose-500');
 
       if (planTitle) {
         planTitle.textContent = `Plano ${planName}`;
@@ -173,12 +337,19 @@ import { siteConfig } from '../data/config';
         planSelect.value = planId;
       }
 
-      if (domainInput && domain) {
+      if (cycleSelect && cycle) {
+        cycleSelect.value = cycle;
+      }
+
+      if (domainInput) {
         domainInput.value = domain;
       }
 
       backdrop.classList.remove('hidden');
       backdrop.classList.add('flex');
+
+      // Scroll para o topo do modal
+      backdrop.scrollTop = 0;
     }
   };
 
@@ -198,24 +369,132 @@ import { siteConfig } from '../data/config';
     });
   }
 
-  if (form && successBox) {
-    form.addEventListener('submit', (e) => {
+  // Tecla ESC fecha o modal
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && backdrop && !backdrop.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+
+  // Copiar código PIX
+  if (pixCopyBtn && pixCodeInput && pixCopyFeedback) {
+    pixCopyBtn.addEventListener('click', async () => {
+      if (!pixCodeInput.value) return;
+
+      try {
+        await navigator.clipboard.writeText(pixCodeInput.value);
+        pixCopyFeedback.textContent = '✓ Código PIX copiado para a área de transferência!';
+        pixCopyBtn.classList.replace('bg-emerald-600', 'bg-emerald-700');
+        setTimeout(() => {
+          pixCopyFeedback.textContent = '';
+          pixCopyBtn.classList.replace('bg-emerald-700', 'bg-emerald-600');
+        }, 3500);
+      } catch (err) {
+        pixCodeInput.select();
+        document.execCommand('copy');
+        pixCopyFeedback.textContent = '✓ Código selecionado e copiado!';
+        setTimeout(() => {
+          pixCopyFeedback.textContent = '';
+        }, 3500);
+      }
+    });
+  }
+
+  // Submissão do Pedido
+  if (form && successBox && submitBtn) {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const submitBtn = document.getElementById('order-submit-btn');
-      if (submitBtn) {
-        submitBtn.setAttribute('disabled', 'true');
-        submitBtn.innerHTML = `Processando solicitação...`;
+
+      if (errorBox) errorBox.classList.add('hidden');
+
+      const rawDoc = docInput?.value || '';
+      if (!validateDocument(rawDoc)) {
+        if (docError) docError.classList.remove('hidden');
+        if (docInput) {
+          docInput.classList.add('border-rose-500');
+          docInput.focus();
+        }
+        return;
       }
 
-      setTimeout(() => {
+      const planVal = planSelect?.value || 'intermediario';
+      const productId = getProductIdByPlan(planVal);
+      const cycleVal = (cycleSelect?.value || 'monthly') as any;
+
+      submitBtn.setAttribute('disabled', 'true');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Gerando fatura e PIX...</span>
+      `;
+
+      try {
+        const orderData = await createPublicOrder({
+          name: nameInput?.value || '',
+          document: rawDoc,
+          email: emailInput?.value || '',
+          phone: phoneInput?.value || '',
+          productId: productId,
+          billingCycle: cycleVal,
+          domain: domainInput?.value || undefined,
+        });
+
+        // Preenche os dados da tela de sucesso e pagamento
+        if (serviceSummary) {
+          const formattedAmount = Number(orderData.invoice?.total || orderData.service?.amount || 0).toFixed(2).replace('.', ',');
+          serviceSummary.innerHTML = `
+            Pedido <strong class="text-slate-900 dark:text-white">#${orderData.order_id}</strong>: 
+            ${orderData.service?.product_name || 'Hospedagem'} 
+            (${orderData.service?.billing_cycle}) - <strong class="text-emerald-600 dark:text-emerald-400">R$ ${formattedAmount}</strong>
+          `;
+        }
+
+        const payment = orderData.invoice?.payment;
+        if (payment && (payment.pix_copia_e_cola || payment.pix_qr_code_image)) {
+          if (pixContainer) pixContainer.classList.remove('hidden');
+
+          if (pixAmount) {
+            const formattedTotal = Number(orderData.invoice.total).toFixed(2).replace('.', ',');
+            pixAmount.textContent = `R$ ${formattedTotal}`;
+          }
+
+          if (payment.pix_qr_code_image && pixQrImg && pixQrWrapper) {
+            pixQrImg.src = payment.pix_qr_code_image;
+            pixQrWrapper.classList.remove('hidden');
+          } else if (pixQrWrapper) {
+            pixQrWrapper.classList.add('hidden');
+          }
+
+          if (payment.pix_copia_e_cola && pixCodeInput) {
+            pixCodeInput.value = payment.pix_copia_e_cola;
+          }
+        } else if (pixContainer) {
+          pixContainer.classList.add('hidden');
+        }
+
+        if (payment?.boleto_url && boletoContainer && boletoLink) {
+          boletoLink.href = payment.boleto_url;
+          boletoContainer.classList.remove('hidden');
+        } else if (boletoContainer) {
+          boletoContainer.classList.add('hidden');
+        }
+
         form.classList.add('hidden');
         successBox.classList.remove('hidden');
-        if (submitBtn) {
-          submitBtn.removeAttribute('disabled');
-          submitBtn.innerHTML = `Concluir e Solicitar Ativação`;
+        backdrop.scrollTop = 0;
+      } catch (err: any) {
+        if (errorBox && errorMessage) {
+          errorMessage.textContent = err.message || 'Ocorreu um erro ao processar o seu pedido. Por favor, tente novamente.';
+          errorBox.classList.remove('hidden');
+          backdrop.scrollTop = 0;
         }
-      }, 600);
+      } finally {
+        submitBtn.removeAttribute('disabled');
+        submitBtn.innerHTML = originalBtnText;
+      }
     });
   }
 </script>
