@@ -1,0 +1,96 @@
+name: Deploy em Produção (ikons.com.br)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+concurrency:
+  group: production_deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build Astro e Deploy para VPS CloudLinux
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: |
+          npm ci || npm install
+
+      - name: Executar testes automatizados
+        run: |
+          npm test
+
+      - name: Build do Astro para Produção
+        run: |
+          npm run build
+        env:
+          PUBLIC_GESTORVPS_API_URL: ${{ vars.PUBLIC_GESTORVPS_API_URL || 'https://gestao.ikons.com.br/api' }}
+          PUBLIC_GESTORVPS_URL: ${{ vars.PUBLIC_GESTORVPS_URL || 'https://gestao.ikons.com.br' }}
+          PUBLIC_PRODUCT_BASICO_ID: ${{ vars.PUBLIC_PRODUCT_BASICO_ID || '1' }}
+          PUBLIC_PRODUCT_INTERMEDIARIO_ID: ${{ vars.PUBLIC_PRODUCT_INTERMEDIARIO_ID || '2' }}
+          PUBLIC_PRODUCT_AVANCADO_ID: ${{ vars.PUBLIC_PRODUCT_AVANCADO_ID || '3' }}
+
+      - name: Configurar Chave SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Adicionar Host SSH aos Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Compactar arquivos estáticos compilados (dist)
+        run: |
+          tar -czf /tmp/deploy.tar.gz -C dist .
+
+      - name: Enviar e descompactar arquivos na VPS via SSH
+        run: |
+          TARGET_DIR="${{ secrets.DEPLOY_PATH }}"
+          if [ -z "$TARGET_DIR" ] || [ "$TARGET_DIR" = "/public_html" ] || [ "$TARGET_DIR" = "public_html" ]; then
+            TARGET_DIR="/home/${{ secrets.SSH_USER }}/public_html"
+          fi
+
+          echo "Diretório de destino: $TARGET_DIR"
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p $TARGET_DIR"
+          cat /tmp/deploy.tar.gz | ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "tar -xzf - -C $TARGET_DIR"
+
+      - name: Executar ajustes pós-deploy na VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            TARGET_DIR="${{ secrets.DEPLOY_PATH }}"
+            if [ -z "$TARGET_DIR" ] || [ "$TARGET_DIR" = "/public_html" ] || [ "$TARGET_DIR" = "public_html" ]; then
+              TARGET_DIR="/home/${{ secrets.SSH_USER }}/public_html"
+            fi
+
+            cd "$TARGET_DIR"
+
+            # Ajustar permissões para que o servidor web (cPanel/Apache) consiga servir os arquivos
+            chmod 644 index.html 2>/dev/null || true
+            if [ -d "_astro" ]; then
+              find _astro -type d -exec chmod 755 {} +
+              find _astro -type f -exec chmod 644 {} +
+            fi
+            if [ -d "images" ]; then
+              find images -type d -exec chmod 755 {} + 2>/dev/null || true
+              find images -type f -exec chmod 644 {} + 2>/dev/null || true
+            fi
+
+            echo "Deploy concluído com sucesso em $TARGET_DIR!"

@@ -11,8 +11,8 @@ export const siteConfig = {
     contactEmail: 'contato@ikons.com.br',
   },
   gestorVps: {
-    apiUrl: (import.meta.env.PUBLIC_GESTORVPS_API_URL as string) || 'https://painel.ikons.com.br/api',
-    baseUrl: (import.meta.env.PUBLIC_GESTORVPS_URL as string) || 'https://painel.ikons.com.br',
+    apiUrl: (import.meta.env.PUBLIC_GESTORVPS_API_URL as string) || 'https://gestao.ikons.com.br/api',
+    baseUrl: (import.meta.env.PUBLIC_GESTORVPS_URL as string) || 'https://gestao.ikons.com.br',
   },
   products: {
     basicoId: Number(import.meta.env.PUBLIC_PRODUCT_BASICO_ID || 1),
