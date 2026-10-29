@@ -79,6 +79,7 @@ import { domainExtensions } from '../data/pricing';
 
 <script>
   import { checkDomainAvailability } from '../utils/api';
+  import { domainExtensions } from '../data/pricing';
 
   const form = document.getElementById('domain-search-form') as HTMLFormElement | null;
   const input = document.getElementById('domain-input') as HTMLInputElement | null;
@@ -103,17 +104,12 @@ import { domainExtensions } from '../data/pricing';
     });
   });
 
-  function getFallbackPrice(domain: string): string {
-    if (domain.endsWith('.com.br') || domain.endsWith('.org.br')) {
-      return 'R$ 60,00/ano';
-    }
-    if (domain.endsWith('.com')) {
-      return 'R$ 103,50/ano';
-    }
-    if (domain.endsWith('.net')) {
-      return 'R$ 118,50/ano';
-    }
-    return 'R$ 60,00/ano';
+  function getDomainPrice(domain: string): string {
+    // Sempre utiliza o valor tabelado no site (pricing.ts), priorizando extensões mais específicas
+    const match = [...domainExtensions]
+      .sort((a, b) => b.tld.length - a.tld.length)
+      .find(ext => domain.endsWith(ext.tld));
+    return match ? match.price : 'R$ 60,00/ano';
   }
 
   if (form && input && resultContainer && resultCard && submitBtn) {
@@ -141,9 +137,7 @@ import { domainExtensions } from '../data/pricing';
       try {
         const result = await checkDomainAvailability(rawDomain);
         const domain = result.domain || rawDomain;
-        const priceLabel = result.price 
-          ? `R$ ${Number(result.price).toFixed(2).replace('.', ',')}/ano`
-          : getFallbackPrice(domain);
+        const priceLabel = getDomainPrice(domain);
 
         if (result.available) {
           // Domínio Disponível para Registro
